@@ -79,7 +79,7 @@ html {
     height: 80%;
     width: 100%;
     background: rgb(186, 31, 51);
-    background: linear-gradient(135deg, rgb(186, 31, 51) 0%, rgba(246,97,52,1) 100%);
+    background: linear-gradient(135deg, rgb(186, 31, 51) 0%, rgba(246, 97, 52, 1) 100%);
     position: absolute;
 }
 
@@ -90,6 +90,15 @@ html {
     flex-direction: column;
     justify-content: center;
     color: white;
+
+    .store-brand {
+        border-radius: 13px;
+        margin-top: 10px;
+    }
+    
+    .store-brand[mac] {
+        margin-top: 3px;
+    }
 }
 
 #title-box * {
@@ -149,15 +158,15 @@ html {
 }
 
 @media(max-width: 900px) {
-    
+
     .section {
         height: 600px;
     }
-    
+
     .content {
         height: 600px;
     }
-    
+
     .content h3 {
         font-size: 28;
     }
@@ -166,7 +175,7 @@ html {
         margin-top: 20px;
         font-size: 14;
     }
-    
+
     .content[right] .text-box {
         margin: auto 50px auto 25px;
     }
@@ -174,12 +183,12 @@ html {
     .content[left] .text-box {
         margin: auto 25px auto 50px;
     }
-    
+
     .download-button {
         height: 60px;
         width: 179.5px;
     }
-    
+
     #title-box h1 {
         font-size: 60;
     }
@@ -191,30 +200,30 @@ html {
     #title-box p {
         font-size: 14;
     }
-    
+
     #footer a {
         font-size: 12;
     }
-    
+
 }
 
 @media(max-width: 600px) {
-    
+
     .section {
         height: auto;
     }
-    
+
     .content {
         height: auto;
         flex-direction: column;
         justify-content: center;
         margin-top: 50px;
     }
-    
+
     .content[right] {
         flex-direction: column-reverse;
     }
-    
+
     .content[right] .text-box {
         margin: auto 30px auto 30px;
         text-align: center;
@@ -224,35 +233,35 @@ html {
         margin: auto 30px auto 30px;
         text-align: center;
     }
-    
+
     .content img {
         display: block;
         height: auto;
     }
-    
+
     .mockup {
         width: 400px;
         max-width: 80%;
         margin: auto;
     }
-    
+
     .download-button {
         width: 200px;
         margin: 20 auto 0 auto;
     }
-    
+
     .download-button img {
         margin: 0;
         width: 200px;
     }
-    
+
     #title-box {
         height: auto;
         text-align: center;
         align-items: center;
         margin: 0 30px;
     }
-    
+
     #title-box * {
         max-width: 100%;
     }
@@ -261,13 +270,14 @@ html {
         height: 100%;
         top: 0;
     }
-    
+
     #footer {
         flex-direction: column;
     }
-    
-    #footer *, #footer *:last-child {
+
+    #footer *,
+    #footer *:last-child {
         margin: auto;
     }
-    
+
 }
