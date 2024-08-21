@@ -1,0 +1,109 @@
+/* Please keep this css code to improve the font quality */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -o-font-smoothing: antialiased;
+    box-sizing: content-box;
+    margin: 0;
+}
+
+html {
+    min-width: 320px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    line-height: 1.5;
+}
+
+h1 {
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 100px;
+}
+
+h2 {
+    margin-top: 40px;
+    padding-bottom: 20px;
+    font-size: 30px
+}
+
+p, li {
+    padding-bottom: 20px;
+    font-size: 18px
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+}
+
+#align {
+    width: 920px;
+    margin-top: 150px;
+    margin-bottom: 100px;
+}
+
+#footer {
+    background-color: #1c1c1c;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+#footer * {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 100px;
+}
+
+#footer *:last-child {
+    margin-right: 0;
+}
+
+#footer a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 14;
+}
+
+@media(max-width: 1080px) {
+    
+    #align {
+        width: 100%;
+        margin: 50px;
+        margin-top: 150px;
+    }
+    
+    p, li {
+        font-size: 16px
+    }
+    
+}
+
+@media(max-width: 720px) {
+    
+    #align {
+        margin: 20px;
+        margin-top: 150px;
+    }
+    
+    p, li {
+        font-size: 14px
+    }
+    
+    #footer a {
+        font-size: 12;
+    }
+    
+}
+
+@media(max-width: 600px) {
+    
+    #footer {
+        flex-direction: column;
+    }
+    
+    #footer *, #footer *:last-child {
+        margin: auto;
+    }
+    
+}

@@ -78,8 +78,8 @@ html {
 #first-background-box {
     height: 80%;
     width: 100%;
-    background: rgb(255,160,49);
-    background: linear-gradient(135deg, rgba(255,160,49,1) 0%, rgba(246,97,52,1) 100%);
+    background: rgb(186, 31, 51);
+    background: linear-gradient(135deg, rgb(186, 31, 51) 0%, rgba(246,97,52,1) 100%);
     position: absolute;
 }
 
