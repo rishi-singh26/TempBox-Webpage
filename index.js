@@ -22,6 +22,8 @@ function getOS() {
     else if (userAgent.indexOf("Android") !== -1) os = Platform.Android;
     else if (userAgent.indexOf("iPhone") !== -1 || userAgent.indexOf("iPad") !== -1) os = Platform.iOS;
 
+    alert(os);
+
     return os;
 }
 
