@@ -58,6 +58,12 @@ html {
     position: relative;
 }
 
+.mockup-desktop {
+    width: 700px;
+    height: 450px;
+    margin: auto;
+}
+
 .download-button {
     margin: 20 auto 20 0;
     position: relative;
@@ -94,8 +100,9 @@ html {
     .store-brand {
         border-radius: 13px;
         margin-top: 10px;
+        height: 43.5px;
     }
-    
+
     .store-brand[mac] {
         margin-top: 3px;
     }
@@ -157,7 +164,7 @@ html {
     font-size: 14;
 }
 
-@media(max-width: 900px) {
+@media(max-width: 1065px) {
 
     .section {
         height: 600px;
@@ -182,6 +189,68 @@ html {
 
     .content[left] .text-box {
         margin: auto 25px auto 50px;
+    }
+
+    .mockup-desktop {
+        width: 500px;
+        height: 331.5px;
+        margin: auto;
+    }
+
+    .download-button {
+        height: 60px;
+        width: 179.5px;
+    }
+
+    #title-box h1 {
+        font-size: 60;
+    }
+
+    #title-box h2 {
+        font-size: 28;
+    }
+
+    #title-box p {
+        font-size: 14;
+    }
+
+    #footer a {
+        font-size: 12;
+    }
+
+}
+
+@media(max-width: 875px) {
+
+    .section {
+        height: 600px;
+    }
+
+    .content {
+        height: 600px;
+    }
+
+    .content h3 {
+        font-size: 28;
+    }
+
+    .content p {
+        margin-top: 20px;
+        font-size: 14;
+    }
+
+    .content[right] .text-box {
+        margin: auto 50px auto 25px;
+    }
+
+    .content[left] .text-box {
+        margin: auto 25px auto 50px;
+    }
+
+    .mockup-desktop {
+        width: 400px;
+        height: 257.2px;
+        margin: auto;
     }
 
     .download-button {
@@ -242,6 +311,11 @@ html {
     .mockup {
         width: 400px;
         max-width: 80%;
+        margin: auto;
+    }
+
+    .mockup-desktop {
+        width: 400px;
         margin: auto;
     }
 
