@@ -30,8 +30,6 @@ function getOS() {
         os = Platform.Windows;
     }
 
-    alert(userAgent + '\n' + platform + '\n' + os);
-
     return os;
 }
 
@@ -43,17 +41,6 @@ function setImage(os) {
     const exportimage = document.getElementById("exportimage");
     const darkimage = document.getElementById("darkimage");
 
-    appimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/App.png`;
-    addimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/Add.png`;
-    loginimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/Login.png`;
-    archiveimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/Archive.png`;
-    exportimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/Export.png`;
-    darkimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/Dark.png`;
-
-    updateStyles(os);
-}
-
-function updateStyles(os) {
     const addContent = document.getElementById("add-content");
     const loginContent = document.getElementById("login-content");
     const archiveContent = document.getElementById("archive-content");
@@ -65,6 +52,13 @@ function updateStyles(os) {
     const archiveSection = document.getElementById("archive-section");
     const exportSection = document.getElementById("export-section");
     const darkSection = document.getElementById("dark-section");
+
+    appimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/App.png`;
+    addimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/Add.png`;
+    loginimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/Login.png`;
+    archiveimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/Archive.png`;
+    exportimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/Export.png`;
+    darkimage.src = `https://cdn.jsdelivr.net/gh/rishi-singh26/TempBox-Webpage/assets/screenshots/${os}/Dark.png`;
 
     if (os === Platform.MacOS || os === Platform.Windows || os === Platform.Linux) {
         addSection.style.height = '500px';
