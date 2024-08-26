@@ -8,21 +8,29 @@ const Platform = {
 
 function getOS() {
     const userAgent = window.navigator.userAgent;
-    let os = "Unknown";
 
-    if (userAgent.indexOf("Windows") !== -1) os = Platform.Windows;
-    // if (userAgent.indexOf("Windows NT 10.0") !== -1) os = "Windows 10";
-    // else if (userAgent.indexOf("Windows NT 6.2") !== -1) os = "Windows 8";
-    // else if (userAgent.indexOf("Windows NT 6.1") !== -1) os = "Windows 7";
-    // else if (userAgent.indexOf("Windows NT 6.0") !== -1) os = "Windows Vista";
-    // else if (userAgent.indexOf("Windows NT 5.1") !== -1) os = "Windows XP";
-    // else if (userAgent.indexOf("Mac OS X") !== -1) os = "Mac OS X";
-    else if (userAgent.indexOf("Mac") !== -1) os = Platform.MacOS;
-    else if (userAgent.indexOf("Linux") !== -1) os = Platform.Linux;
-    else if (userAgent.indexOf("Android") !== -1) os = Platform.Android;
-    else if (userAgent.indexOf("iPhone") !== -1 || userAgent.indexOf("iPad") !== -1) os = Platform.iOS;
+    // Define regex patterns for different operating systems
+    const platform = navigator?.userAgentData?.platform || navigator?.platform || 'unknown'
 
-    alert(os);
+    const macOSPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K', 'macOS'];
+    const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
+    const iosPlatforms = ['iPhone', 'iPad', 'iPod'];
+    let os = null;
+
+    // Determine the operating system based on the platform and user agent
+    if (macOSPlatforms.includes(platform)) {
+        os = Platform.MacOS;
+    } else if (iosPlatforms.includes(platform)) {
+        os = Platform.iOS;
+    } else if (windowsPlatforms.includes(platform)) {
+        os = Platform.Windows;
+    } else if (/Android/.test(userAgent)) {
+        os = Platform.Android;
+    } else if (/Linux/.test(platform)) {
+        os = Platform.Windows;
+    }
+
+    alert(userAgent + '\n' + platform + '\n' + os);
 
     return os;
 }
