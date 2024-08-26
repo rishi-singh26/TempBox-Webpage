@@ -79,25 +79,6 @@ function setImage(os) {
         archiveimage.className = 'mockup-desktop';
         exportimage.className = 'mockup-desktop';
         darkimage.className = 'mockup-desktop';
-    } else {
-        addSection.style.height = '750px';
-        loginSection.style.height = '750px';
-        archiveSection.style.height = '750px';
-        exportSection.style.height = '750px';
-        darkSection.style.height = '750px';
-
-        addContent.style.height = '750px';
-        loginContent.style.height = '750px';
-        archiveContent.style.height = '750px';
-        exportContent.style.height = '750px';
-        darkContent.style.height = '750px';
-
-        appimage.className = 'desktop';
-        addimage.className = 'desktop';
-        loginimage.className = 'desktop';
-        archiveimage.className = 'desktop';
-        exportimage.className = 'desktop';
-        darkimage.className = 'desktop';
     }
 }
 
