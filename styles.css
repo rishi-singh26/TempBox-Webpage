@@ -100,7 +100,11 @@ html {
     .store-brand {
         border-radius: 13px;
         margin-top: 10px;
-        height: 43.5px;
+        height: 80px;
+
+        img {
+            height: 80px;
+        }
     }
 
     .store-brand[mac] {
@@ -162,6 +166,15 @@ html {
     color: inherit;
     text-decoration: none;
     font-size: 14;
+}
+
+.coffy-brand {
+    max-height: 40px;
+    margin: 10px 0;
+
+    img {
+        max-height: 40px;
+    }
 }
 
 @media(max-width: 1065px) {
