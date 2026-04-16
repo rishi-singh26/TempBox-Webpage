@@ -1,0 +1,3 @@
+Restyle the `../index.html`, `../privacy-policy.html`, `../terms-of-service.html` and `../404.html` pages. Use the `./style-guide.html` for styling reference pole start. But keep using the tempbox accent colors in background and text. Make sure that the text and background have proper contrast so that text is properly readable. Note that in index.html (only) currently different images are shown based on platform. Four platfroms are supported, Windows, macOS, Android and iOS. Remove support for Windows and Android. On windows and macOS show macOS images and on Android and iOS show iOS images.
+
+Make sure the content security policy header is correct so that buy me coffee and other urls work properly.

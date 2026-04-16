@@ -1,0 +1,2510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style Guide — Technical Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* ════════════════════════════════════════════════════════
+       DESIGN TOKENS — copy this :root block into every page
+       ════════════════════════════════════════════════════════ */
+    :root {
+      /* Backgrounds (old paper feel, slightly more contrast separation) */
+      --bg: #f5f1e6;
+      --bg2: #eee8d8;
+      --bg3: #e4ddcc;
+      --bg4: #d6cfbb;
+
+      /* Borders (more visible) */
+      --border: rgba(60, 50, 30, 0.18);
+      --border-hover: rgba(60, 50, 30, 0.32);
+
+      /* Text (stronger ink contrast) */
+      --text: #1f1d1a;
+      --text-muted: #5f5a4f;
+      --text-dim: #8a8476;
+
+      /* Accent (slightly stronger for readability) */
+      --accent: #4e6290;
+      --accent-light: #6f84b3;
+      --accent-dim: rgba(78, 98, 144, 0.16);
+
+      /* Typography */
+      --mono: 'JetBrains Mono', monospace;
+      --serif: 'Fraunces', Georgia, serif;
+
+      /* Status badges (more readable contrast) */
+      --badge-get-bg: rgba(76, 145, 110, 0.18);
+      --badge-get-text: #2f6f52;
+      --badge-put-bg: rgba(181, 104, 75, 0.18);
+      --badge-put-text: #8f4832;
+      --badge-nav-bg: rgba(91, 111, 154, 0.18);
+      --badge-nav-text: #4e6290;
+      --badge-manage-bg: rgba(166, 124, 54, 0.18);
+      --badge-manage-text: #7d5f28;
+      --badge-info-bg: rgba(160, 80, 70, 0.16);
+      --badge-info-text: #7c3e37;
+
+      /* Callouts (boosted clarity) */
+      --callout-info-bg: rgba(78, 98, 144, 0.14);
+      --callout-info-border: rgba(78, 98, 144, 0.35);
+      --callout-info-text: #3f5280;
+
+      --callout-warn-bg: rgba(166, 124, 54, 0.14);
+      --callout-warn-border: rgba(166, 124, 54, 0.35);
+      --callout-warn-text: #7d5f28;
+
+      --callout-success-bg: rgba(76, 145, 110, 0.14);
+      --callout-success-border: rgba(76, 145, 110, 0.35);
+      --callout-success-text: #2f6f52;
+
+      --callout-error-bg: rgba(160, 80, 70, 0.14);
+      --callout-error-border: rgba(160, 80, 70, 0.35);
+      --callout-error-text: #7c3e37;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        /* Backgrounds (slightly more separation) */
+        --bg: #0c0e13;
+        --bg2: #12141b;
+        --bg3: #181b24;
+        --bg4: #20232e;
+
+        /* Borders (clearer structure) */
+        --border: rgba(255, 255, 255, 0.10);
+        --border-hover: rgba(255, 255, 255, 0.20);
+
+        /* Text (improved readability hierarchy) */
+        --text: #f5f7fb;
+        --text-muted: #b2b8cc;
+        --text-dim: #7c8298;
+
+        /* Accent (more vivid for dark bg) */
+        --accent: #7c9dff;
+        --accent-light: #a9bbff;
+        --accent-dim: rgba(124, 157, 255, 0.18);
+
+        /* Typography */
+        --mono: 'JetBrains Mono', monospace;
+        --serif: 'Fraunces', Georgia, serif;
+
+        /* Badges (clearer text contrast) */
+        --badge-get-bg: rgba(46, 204, 113, 0.16);
+        --badge-get-text: #6ee7a3;
+        --badge-put-bg: rgba(255, 120, 70, 0.16);
+        --badge-put-text: #ffb08a;
+        --badge-nav-bg: rgba(124, 157, 255, 0.16);
+        --badge-nav-text: #a9bbff;
+        --badge-manage-bg: rgba(245, 158, 11, 0.16);
+        --badge-manage-text: #fcd34d;
+        --badge-info-bg: rgba(239, 68, 68, 0.16);
+        --badge-info-text: #fca5a5;
+
+        /* Callouts (more visible borders + text) */
+        --callout-info-bg: rgba(124, 157, 255, 0.14);
+        --callout-info-border: rgba(124, 157, 255, 0.35);
+        --callout-info-text: #a9bbff;
+
+        --callout-warn-bg: rgba(245, 158, 11, 0.14);
+        --callout-warn-border: rgba(245, 158, 11, 0.35);
+        --callout-warn-text: #fcd34d;
+
+        --callout-success-bg: rgba(46, 204, 113, 0.14);
+        --callout-success-border: rgba(46, 204, 113, 0.35);
+        --callout-success-text: #6ee7a3;
+
+        --callout-error-bg: rgba(239, 68, 68, 0.14);
+        --callout-error-border: rgba(239, 68, 68, 0.35);
+        --callout-error-text: #fca5a5;
+      }
+    }
+
+    /* ════════════════════════════════════════════════════════
+       BASE RESET & GLOBALS
+       ════════════════════════════════════════════════════════ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--mono);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       PAGE LAYOUT — sidebar + main content
+       ════════════════════════════════════════════════════════ */
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 220px;
+      border-right: 1px solid var(--border);
+      padding: 2rem 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--bg2);
+    }
+
+    .sidebar-logo {
+      padding: 0 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-logo-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    /* Serif italic title in sidebar — em = accent-colored non-italic word */
+    .sidebar-logo-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .sidebar-logo-title em {
+      font-style: normal;
+      color: var(--accent-light);
+    }
+
+    .nav-group {
+      margin-bottom: 0.25rem;
+    }
+
+    .nav-group-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      padding: 0.6rem 1.25rem 0.3rem;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 5px 1.25rem;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s, background 0.15s;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+      background: var(--bg3);
+    }
+
+    .nav-link.active {
+      color: var(--accent-light);
+      border-left-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* ── Main content area ── */
+    .main {
+      min-width: 0;
+      padding: 0 2.5rem 5rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       PAGE HEADER  (first element inside .main)
+       ════════════════════════════════════════════════════════ */
+    .page-header {
+      padding: 3rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle accent glow blob — purely decorative */
+    /* .page-header::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -60px;
+      width: 360px; height: 260px;
+      background: radial-gradient(ellipse, var(--accent-dim) 0%, transparent 70%);
+      pointer-events: none;
+    } */
+    .page-header-label {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      opacity: 0.7;
+      margin-bottom: 0.75rem;
+    }
+
+    .page-header h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    /* em inside h1 = accent-colored, non-italic keyword */
+    .page-header h1 em {
+      font-style: normal;
+      color: var(--accent-light);
+    }
+
+    .page-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 540px;
+      line-height: 1.7;
+    }
+
+    /* Meta pills row — e.g. "Ubuntu 20.04+", "Port 22" */
+    .header-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      font-size: 11px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meta-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    /* Rounded pill tags (used in header) */
+    .header-pills {
+      display: flex;
+      gap: 8px;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border-hover);
+      color: var(--text-muted);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       SECTIONS
+       ════════════════════════════════════════════════════════ */
+    .section {
+      margin-bottom: 4rem;
+    }
+
+    .section-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header h2 {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .section-header h2 em {
+      font-style: normal;
+      color: var(--accent-light);
+    }
+
+    .section-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .section-desc code {
+      color: var(--text);
+      background: var(--bg4);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    /* ── Sub-label (divider with text) ── */
+    .sub-label {
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin: 1.5rem 0 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sub-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       STEP BLOCKS  (numbered expandable cards — for guides/how-tos)
+       ════════════════════════════════════════════════════════ */
+    .step-block {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+
+    .step-header:hover {
+      background: var(--bg3);
+    }
+
+    /* Circle step number badge */
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--bg4);
+      border: 1px solid var(--border-hover);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-size: 13.5px;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .step-chevron {
+      font-size: 10px;
+      color: var(--text-dim);
+      transition: transform 0.2s;
+    }
+
+    .step-block.open .step-chevron {
+      transform: rotate(90deg);
+    }
+
+    .step-body {
+      display: none;
+      border-top: 1px solid var(--border);
+      padding: 16px;
+      background: var(--bg);
+    }
+
+    .step-block.open .step-body {
+      display: block;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .step-desc code {
+      color: var(--text);
+      background: var(--bg4);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .step-desc em {
+      color: var(--accent-light);
+      font-style: normal;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       COMMAND CARDS  (badge + title + expandable body)
+       Used for API/CLI reference docs
+       ════════════════════════════════════════════════════════ */
+    .cmd-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      transition: border-color 0.2s;
+    }
+
+    .cmd-card:hover {
+      border-color: var(--border-hover);
+    }
+
+    .cmd-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      cursor: pointer;
+      user-select: none;
+      background: var(--bg2);
+    }
+
+    .cmd-header:hover {
+      background: var(--bg3);
+    }
+
+    /* Badge — color-coded by command type */
+    .cmd-badge {
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 5px;
+      min-width: 84px;
+      text-align: center;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .badge-get {
+      background: var(--badge-get-bg);
+      color: var(--badge-get-text);
+    }
+
+    .badge-put {
+      background: var(--badge-put-bg);
+      color: var(--badge-put-text);
+    }
+
+    .badge-nav {
+      background: var(--badge-nav-bg);
+      color: var(--badge-nav-text);
+    }
+
+    .badge-manage {
+      background: var(--badge-manage-bg);
+      color: var(--badge-manage-text);
+    }
+
+    .badge-info {
+      background: var(--badge-info-bg);
+      color: var(--badge-info-text);
+    }
+
+    .cmd-main {
+      font-size: 13.5px;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .cmd-chevron {
+      font-size: 10px;
+      color: var(--text-dim);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .cmd-card.open .cmd-chevron {
+      transform: rotate(90deg);
+    }
+
+    .cmd-body {
+      display: none;
+      border-top: 1px solid var(--border);
+      padding: 14px;
+      background: var(--bg);
+    }
+
+    .cmd-card.open .cmd-body {
+      display: block;
+    }
+
+    .cmd-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .cmd-desc code {
+      color: var(--text);
+      background: var(--bg4);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .cmd-desc em {
+      color: var(--accent-light);
+      font-style: normal;
+    }
+
+    /* Example rows inside command cards */
+    .examples {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .example {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 9px 12px;
+    }
+
+    .ex-cmd {
+      font-size: 13px;
+      color: var(--accent-light);
+      margin-bottom: 3px;
+    }
+
+    .ex-cmd span.prompt {
+      color: var(--text-dim);
+    }
+
+    .ex-note {
+      font-size: 11.5px;
+      color: var(--text-dim);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       CODE BLOCKS  (with header bar + copy button)
+       ════════════════════════════════════════════════════════ */
+    .code-block {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 12px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg3);
+    }
+
+    .code-label {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .copy-btn {
+      font-size: 10px;
+      color: var(--text-dim);
+      background: none;
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--mono);
+      transition: all 0.15s;
+    }
+
+    .copy-btn:hover {
+      color: var(--accent-light);
+      border-color: var(--accent);
+    }
+
+    .copy-btn.copied {
+      color: var(--badge-get-text);
+      border-color: var(--badge-get-text);
+    }
+
+    pre {
+      padding: 14px 16px;
+      font-size: 12.5px;
+      line-height: 1.65;
+      overflow-x: auto;
+      color: var(--text);
+      white-space: pre;
+    }
+
+    /* Syntax highlighting classes — apply to <span> inside <pre> */
+    pre .cm {
+      color: var(--text-dim);
+    }
+
+    /* comments */
+    pre .kw {
+      color: var(--badge-nav-text);
+    }
+
+    /* keywords (if, for, do) */
+    pre .str {
+      color: var(--badge-get-text);
+    }
+
+    /* strings */
+    pre .var {
+      color: var(--badge-manage-text);
+    }
+
+    /* variables */
+    pre .cmd {
+      color: var(--accent-light);
+    }
+
+    /* commands / function names */
+    pre .op {
+      color: var(--badge-put-text);
+    }
+
+    /* operators / errors */
+    /* Nginx-specific tokens */
+    pre .nginx-dir {
+      color: var(--badge-nav-text);
+    }
+
+    pre .nginx-val {
+      color: var(--badge-get-text);
+    }
+
+    pre .nginx-ctx {
+      color: var(--accent-light);
+    }
+
+    pre .nginx-cm {
+      color: var(--text-dim);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       CALLOUT BOXES  (info / warn / success / error)
+       ════════════════════════════════════════════════════════ */
+    .callout {
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      font-size: 12.5px;
+      line-height: 1.65;
+    }
+
+    .callout code {
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .callout-info {
+      background: var(--callout-info-bg);
+      border: 1px solid var(--callout-info-border);
+      color: var(--callout-info-text);
+    }
+
+    .callout-info code {
+      background: var(--callout-info-bg);
+      color: var(--callout-info-text);
+    }
+
+    .callout-warn {
+      background: var(--callout-warn-bg);
+      border: 1px solid var(--callout-warn-border);
+      color: var(--callout-warn-text);
+    }
+
+    .callout-warn code {
+      background: var(--callout-warn-bg);
+      color: var(--callout-warn-text);
+    }
+
+    .callout-success {
+      background: var(--callout-success-bg);
+      border: 1px solid var(--callout-success-border);
+      color: var(--callout-success-text);
+    }
+
+    .callout-success code {
+      background: var(--callout-success-bg);
+      color: var(--callout-success-text);
+    }
+
+    .callout-error {
+      background: var(--callout-error-bg);
+      border: 1px solid var(--callout-error-border);
+      color: var(--callout-error-text);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       TIP BOXES  (left-border accent style)
+       ════════════════════════════════════════════════════════ */
+    .tip-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      transition: border-color 0.2s;
+    }
+
+    .tip-box:hover {
+      border-color: var(--border-hover);
+      border-left-color: var(--accent-light);
+    }
+
+    .tip-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .tip-text {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .tip-text code {
+      color: var(--text);
+      background: var(--bg4);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       GRID CARDS  (2-column info boxes — e.g. connection options)
+       ════════════════════════════════════════════════════════ */
+    .connect-grid {
+      margin-bottom: 1.5rem;
+    }
+
+    .connect-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      height: 100%;
+      padding: 1rem 1.1rem;
+      transition: border-color 0.2s;
+    }
+
+    .connect-box:hover {
+      border-color: var(--border-hover);
+    }
+
+    .connect-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .connect-cmd {
+      font-size: 14px;
+      color: var(--accent-light);
+      margin-bottom: 8px;
+      word-break: break-all;
+    }
+
+    .connect-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .connect-note code {
+      color: var(--text);
+      background: var(--bg4);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 11.5px;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       TABLES  (reference & permissions tables)
+       ════════════════════════════════════════════════════════ */
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      margin-bottom: 1rem;
+    }
+
+    .ref-table th {
+      text-align: left;
+      padding: 8px 12px;
+      color: var(--text-dim);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--border);
+      font-weight: 500;
+    }
+
+    .ref-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .ref-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .ref-table tr:hover td {
+      background: var(--bg2);
+    }
+
+    .ref-cmd {
+      color: var(--accent-light);
+      white-space: nowrap;
+    }
+
+    .ref-desc {
+      color: var(--text-muted);
+    }
+
+    /* Permissions table specific column classes */
+    .perm-octal {
+      color: var(--badge-manage-text);
+    }
+
+    .perm-sym {
+      color: var(--badge-get-text);
+    }
+
+    .perm-desc {
+      color: var(--text-muted);
+    }
+
+    .perm-why {
+      color: var(--text-dim);
+      font-size: 11.5px;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       DIRECTORY TREE
+       ════════════════════════════════════════════════════════ */
+    .dir-tree {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 12.5px;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .dir-tree .dir {
+      color: var(--accent-light);
+    }
+
+    .dir-tree .file {
+      color: var(--text-muted);
+    }
+
+    .dir-tree .comment {
+      color: var(--text-dim);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       FORM COMPONENTS  (used in generators / interactive tools)
+       ════════════════════════════════════════════════════════ */
+    .generator {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .generator-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .generator-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: var(--accent-dim);
+      border: 1px solid var(--callout-info-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    .generator-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .generator-sub {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 1px;
+    }
+
+    .generator-body {
+      padding: 1.5rem;
+    }
+
+    /* 2-column form grid */
+    .gen-grid {
+      margin-bottom: 12px;
+    }
+
+    .gen-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    /* Field label */
+    .gen-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-dim);
+    }
+
+    /* Text inputs and selects */
+    .gen-input,
+    .gen-select {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 8px 11px;
+      font-size: 12.5px;
+      font-family: var(--mono);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .gen-input:focus,
+    .gen-select:focus {
+      border-color: var(--accent);
+    }
+
+    .gen-input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .gen-select option {
+      background: var(--bg3);
+    }
+
+    /* Section heading inside a form */
+    .gen-section-title {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-dim);
+      margin: 1rem 0 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .gen-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Checkbox rows */
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .checkbox-row:hover {
+      background: var(--bg3);
+      border-color: var(--border-hover);
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 1px;
+      cursor: pointer;
+    }
+
+    .checkbox-label {
+      font-size: 12.5px;
+      color: var(--text);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .checkbox-desc {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    /* Buttons */
+    .gen-btn {
+      padding: 9px 20px;
+      border-radius: 7px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: all 0.15s;
+      border: none;
+      font-weight: 500;
+    }
+
+    .gen-btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .gen-btn-primary:hover {
+      background: var(--accent-light);
+    }
+
+    .gen-btn-secondary {
+      background: var(--bg4);
+      color: var(--text-muted);
+      border: 1px solid var(--border-hover);
+    }
+
+    .gen-btn-secondary:hover {
+      background: var(--bg3);
+      color: var(--text);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 0;
+      font-size: 11px;
+      color: var(--text-dim);
+      gap: 8px;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       SCROLLBAR  (webkit — applies to sidebar and page)
+       ════════════════════════════════════════════════════════ */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--bg4);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--bg3);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       MOBILE DRAWER — hamburger + slide-in sidebar
+       ════════════════════════════════════════════════════════ */
+
+    /* Hamburger button — shown on mobile via Bootstrap d-flex d-md-none */
+    .menu-toggle {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 1001;
+      width: 36px;
+      height: 36px;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .menu-toggle:hover {
+      background: var(--bg3);
+      border-color: var(--border-hover);
+    }
+
+    .menu-toggle svg {
+      display: block;
+    }
+
+    /* Overlay backdrop */
+    .drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .drawer-overlay.open {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Hide close button on desktop */
+    .drawer-close {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .main {
+        padding: 0 1rem 4rem;
+        padding-top: 3.5rem;
+      }
+
+      /* Convert sidebar to fixed drawer */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(-100%);
+        transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+          box-shadow 0.28s ease;
+        box-shadow: none;
+        /* keep width & other styles from base */
+      }
+
+      .sidebar.drawer-open {
+        transform: translateX(0);
+        box-shadow: 4px 0 32px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Close button inside drawer */
+      .drawer-close {
+        display: flex;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 28px;
+        height: 28px;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        cursor: pointer;
+        color: var(--text-dim);
+        font-size: 14px;
+        line-height: 1;
+        transition: background 0.15s, color 0.15s;
+        flex-shrink: 0;
+      }
+
+      .drawer-close:hover {
+        background: var(--bg4);
+        color: var(--text);
+      }
+    }
+
+    /* ════════════════════════════════════════════════════════
+       STYLE GUIDE — demo-specific helpers (not part of the design system)
+       ════════════════════════════════════════════════════════ */
+    .swatch-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 10px;
+      color: var(--text-muted);
+      min-width: 100px;
+    }
+
+    .swatch-box {
+      height: 40px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .token-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+
+    .token-row:last-child {
+      border-bottom: none;
+    }
+
+    .token-name {
+      color: var(--accent-light);
+      min-width: 180px;
+      flex-shrink: 0;
+    }
+
+    .token-value {
+      color: var(--text-dim);
+      flex: 1;
+    }
+
+    .token-preview {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .type-specimen {
+      margin-bottom: 1rem;
+    }
+
+    .spec-label {
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile drawer overlay -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+  <!-- Mobile hamburger button -->
+  <button class="menu-toggle d-flex d-md-none" id="menuToggle" onclick="openDrawer()" aria-label="Open navigation">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="4" width="14" height="1.5" rx="0.75" fill="currentColor" style="color:var(--text-muted)" />
+      <rect x="2" y="8.25" width="14" height="1.5" rx="0.75" fill="currentColor" style="color:var(--text-muted)" />
+      <rect x="2" y="12.5" width="14" height="1.5" rx="0.75" fill="currentColor" style="color:var(--text-muted)" />
+    </svg>
+  </button>
+
+  <div class="layout d-flex min-vh-100">
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="sidebar flex-shrink-0" id="sidebar">
+      <!-- Close button (mobile only) -->
+      <button class="drawer-close" onclick="closeDrawer()" aria-label="Close navigation">✕</button>
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-label">// Design System</div>
+        <div class="sidebar-logo-title">Technical <em>Docs</em><br>Style Guide</div>
+      </div>
+      <nav>
+        <div class="nav-group">
+          <div class="nav-group-label">Foundations</div>
+          <a class="nav-link active" onclick="navTo('overview')">Overview</a>
+          <a class="nav-link" onclick="navTo('tokens')">Design tokens</a>
+          <a class="nav-link" onclick="navTo('typography')">Typography</a>
+          <a class="nav-link" onclick="navTo('colors')">Color palette</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-label">Layout</div>
+          <a class="nav-link" onclick="navTo('layout')">Page layout</a>
+          <a class="nav-link" onclick="navTo('sidebar-nav')">Sidebar &amp; nav</a>
+          <a class="nav-link" onclick="navTo('header')">Page header</a>
+          <a class="nav-link" onclick="navTo('sections')">Sections</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-label">Components</div>
+          <a class="nav-link" onclick="navTo('step-blocks')">Step blocks</a>
+          <a class="nav-link" onclick="navTo('cmd-cards')">Command cards</a>
+          <a class="nav-link" onclick="navTo('code-blocks')">Code blocks</a>
+          <a class="nav-link" onclick="navTo('callouts')">Callouts</a>
+          <a class="nav-link" onclick="navTo('tips')">Tip boxes</a>
+          <a class="nav-link" onclick="navTo('grid-cards')">Grid cards</a>
+          <a class="nav-link" onclick="navTo('tables')">Tables</a>
+          <a class="nav-link" onclick="navTo('forms')">Form components</a>
+          <a class="nav-link" onclick="navTo('badges')">Badges</a>
+          <a class="nav-link" onclick="navTo('misc')">Misc elements</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-label">Reference</div>
+          <a class="nav-link" onclick="navTo('javascript')">JavaScript patterns</a>
+          <a class="nav-link" onclick="navTo('template')">Page template</a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- ══ MAIN ══ -->
+    <main class="main flex-grow-1">
+
+      <!-- PAGE HEADER -->
+      <div class="page-header" id="overview">
+        <div class="page-header-label">// Design System</div>
+        <h1>Technical Docs<br><em>Style Guide</em></h1>
+        <p>Every token, component, and pattern needed to reproduce this exact look and feel. Present this file to Claude
+          and any new page will match perfectly.</p>
+        <div class="header-meta">
+          <span class="meta-item"><span class="meta-dot"></span>Light &amp; dark mode</span>
+          <span class="meta-item"><span class="meta-dot"></span>JetBrains Mono + Fraunces</span>
+          <span class="meta-item"><span class="meta-dot"></span>Sidebar layout</span>
+        </div>
+        <div class="header-pills">
+          <span class="pill">CSS variables</span>
+          <span class="pill">Bootstrap 5</span>
+          <span class="pill">Vanilla JS</span>
+          <span class="pill">Google Fonts</span>
+        </div>
+      </div>
+
+      <!-- DESIGN TOKENS -->
+      <section class="section" id="tokens">
+        <div class="section-header">
+          <h2>Design <em>tokens</em></h2>
+          <p class="section-desc">All visual values are defined as CSS custom properties on <code>:root</code>. Dark
+            mode overrides the same variables inside <code>@media (prefers-color-scheme: dark)</code>. Never hardcode
+            colors — always reference a token.</p>
+        </div>
+
+        <div class="sub-label">backgrounds — 4 levels of depth</div>
+        <div class="swatch-row">
+          <div class="swatch">
+            <div class="swatch-box" style="background:var(--bg)"></div><span>--bg</span><span
+              style="color:var(--text-dim)">page base</span>
+          </div>
+          <div class="swatch">
+            <div class="swatch-box" style="background:var(--bg2)"></div><span>--bg2</span><span
+              style="color:var(--text-dim)">sidebar, cards</span>
+          </div>
+          <div class="swatch">
+            <div class="swatch-box" style="background:var(--bg3)"></div><span>--bg3</span><span
+              style="color:var(--text-dim)">hover states</span>
+          </div>
+          <div class="swatch">
+            <div class="swatch-box" style="background:var(--bg4)"></div><span>--bg4</span><span
+              style="color:var(--text-dim)">inputs, badges</span>
+          </div>
+        </div>
+
+        <div class="sub-label">text hierarchy — 3 levels</div>
+        <div class="token-row"><span class="token-name">--text</span><span class="token-preview"
+            style="color:var(--text)">Primary text — headings, labels, code</span></div>
+        <div class="token-row"><span class="token-name">--text-muted</span><span class="token-preview"
+            style="color:var(--text-muted)">Body text — descriptions, notes, content</span></div>
+        <div class="token-row"><span class="token-name">--text-dim</span><span class="token-preview"
+            style="color:var(--text-dim)">De-emphasized — labels, hints, timestamps</span></div>
+
+        <div class="sub-label">accent</div>
+        <div class="token-row"><span class="token-name">--accent</span><span class="token-preview"
+            style="color:var(--accent)">Borders, active states, buttons</span></div>
+        <div class="token-row"><span class="token-name">--accent-light</span><span class="token-preview"
+            style="color:var(--accent-light)">Text on dark, highlighted words in headings</span></div>
+        <div class="token-row"><span class="token-name">--accent-dim</span><span class="token-preview">Active nav
+            background, icon backgrounds (semi-transparent)</span></div>
+
+        <div class="sub-label">borders</div>
+        <div class="token-row"><span class="token-name">--border</span><span class="token-preview">Default border — all
+            cards, dividers, inputs</span></div>
+        <div class="token-row"><span class="token-name">--border-hover</span><span class="token-preview">Border on hover
+            — slightly more opaque</span></div>
+
+        <div class="callout callout-info" style="margin-top:1rem;">
+          When creating a new page, copy the entire <code>:root { }</code> and
+          <code>@media (prefers-color-scheme: dark) { :root { } }</code> blocks verbatim. Do not add intermediate
+          variables or rename tokens — the component classes depend on these exact names.
+        </div>
+      </section>
+
+      <!-- TYPOGRAPHY -->
+      <section class="section" id="typography">
+        <div class="section-header">
+          <h2><em>Typography</em></h2>
+          <p class="section-desc">Two fonts only. Import both from Google Fonts. The monospace font is used for
+            everything by default; the serif is reserved for large headings only.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">HTML — font import (in &lt;head&gt;)</span></div>
+          <pre>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&amp;display=swap" rel="stylesheet"&gt;</pre>
+        </div>
+
+        <div class="sub-label">font roles</div>
+        <div class="token-row"><span class="token-name">--mono (body default)</span><span
+            class="token-preview">JetBrains Mono — used on body, all UI text, code, labels</span></div>
+        <div class="token-row"><span class="token-name">--serif (headings only)</span><span
+            class="token-preview">Fraunces — used on h1 and h2 only, always italic weight 300</span></div>
+
+        <div class="sub-label">type specimens</div>
+        <div class="type-specimen">
+          <div class="spec-label">H1 — page header (Fraunces italic 300, clamp 1.8–2.8rem)</div>
+          <h1
+            style="font-family:var(--serif);font-size:2.2rem;font-weight:300;font-style:italic;letter-spacing:-0.02em;line-height:1.15;color:var(--text);margin-bottom:0;">
+            Page Title with <em style="font-style:normal;color:var(--accent-light)">Keyword</em></h1>
+        </div>
+        <div class="type-specimen" style="margin-top:1rem;">
+          <div class="spec-label">H2 — section heading (Fraunces italic 300, 1.4rem)</div>
+          <h2
+            style="font-family:var(--serif);font-size:1.4rem;font-weight:300;font-style:italic;color:var(--text);margin-bottom:0;">
+            Section heading with <em style="font-style:normal;color:var(--accent-light)">accent word</em></h2>
+        </div>
+        <div class="type-specimen" style="margin-top:1rem;">
+          <div class="spec-label">Body text (JetBrains Mono 400, 13px, var(--text-muted))</div>
+          <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">This is standard body copy. All descriptive
+            text, notes, and explanations use this style. Inline <code
+              style="color:var(--text);background:var(--bg4);padding:1px 5px;border-radius:4px;font-size:12px;">code</code>
+            uses the same font at 12px with a bg4 background.</p>
+        </div>
+        <div class="type-specimen" style="margin-top:1rem;">
+          <div class="spec-label">Sub-label (9.5px, uppercase, letter-spacing 0.1em)</div>
+          <div class="sub-label">example sub-label</div>
+        </div>
+
+        <div class="callout callout-warn" style="margin-top:1rem;">
+          Never use bold (<code>font-weight: 600+</code>) on body text. Only <code>font-weight: 500</code> is used for
+          titles inside cards. The serif headings use <code>font-weight: 300</code> (light) — this is intentional and
+          essential to the aesthetic.
+        </div>
+      </section>
+
+      <!-- COLORS -->
+      <section class="section" id="colors">
+        <div class="section-header">
+          <h2>Color <em>palette</em></h2>
+          <p class="section-desc">Light mode has a warm paper/ink feel. Dark mode uses a cool dark blue-grey. Both modes
+            share the same token names — only the values change.</p>
+        </div>
+
+        <div class="sub-label">badge / semantic colors</div>
+        <div class="badge-row">
+          <span class="cmd-badge badge-get">get / success</span>
+          <span class="cmd-badge badge-put">put / warning</span>
+          <span class="cmd-badge badge-nav">nav / info</span>
+          <span class="cmd-badge badge-manage">manage / amber</span>
+          <span class="cmd-badge badge-info">info / error</span>
+        </div>
+
+        <div class="token-row"><span class="token-name">--badge-get-*</span><span class="token-preview"
+            style="color:var(--badge-get-text)">Green — get/download, success states</span></div>
+        <div class="token-row"><span class="token-name">--badge-put-*</span><span class="token-preview"
+            style="color:var(--badge-put-text)">Orange — put/upload, warnings</span></div>
+        <div class="token-row"><span class="token-name">--badge-nav-*</span><span class="token-preview"
+            style="color:var(--badge-nav-text)">Blue — navigation, info states</span></div>
+        <div class="token-row"><span class="token-name">--badge-manage-*</span><span class="token-preview"
+            style="color:var(--badge-manage-text)">Amber — management, caution</span></div>
+        <div class="token-row"><span class="token-name">--badge-info-*</span><span class="token-preview"
+            style="color:var(--badge-info-text)">Red — errors, destructive operations</span></div>
+
+        <div class="sub-label">callout semantic colors</div>
+        <div class="callout callout-info">callout-info — informational notes, context</div>
+        <div class="callout callout-warn">callout-warn — cautions, things that may go wrong</div>
+        <div class="callout callout-success">callout-success — confirmation, positive outcomes</div>
+        <div class="callout callout-error">callout-error — errors, destructive actions, irreversible operations</div>
+      </section>
+
+      <!-- LAYOUT -->
+      <section class="section" id="layout">
+        <div class="section-header">
+          <h2>Page <em>layout</em></h2>
+          <p class="section-desc">Every page uses the same two-column flex layout: a fixed-width sticky sidebar on the
+            left and a fluid main content area on the right.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">HTML skeleton</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;div class="layout d-flex min-vh-100"&gt;
+  &lt;aside class="sidebar flex-shrink-0"&gt;
+    &lt;div class="sidebar-logo"&gt;
+      &lt;div class="sidebar-logo-label"&gt;// Guide&lt;/div&gt;
+      &lt;div class="sidebar-logo-title"&gt;Title &lt;em&gt;Keyword&lt;/em&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;nav&gt;
+      &lt;div class="nav-group"&gt;
+        &lt;div class="nav-group-label"&gt;Group name&lt;/div&gt;
+        &lt;a class="nav-link active" onclick="navTo('section-id')"&gt;Link&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/nav&gt;
+  &lt;/aside&gt;
+  &lt;main class="main flex-grow-1"&gt;
+    &lt;div class="page-header" id="overview"&gt;...&lt;/div&gt;
+    &lt;section class="section" id="my-section"&gt;...&lt;/section&gt;
+    &lt;footer class="d-flex justify-content-between align-items-center flex-wrap"&gt;...&lt;/footer&gt;
+  &lt;/main&gt;
+&lt;/div&gt;</pre>
+        </div>
+
+        <div class="tip-box">
+          <div class="tip-label">Max-width</div>
+          <div class="tip-text">The <code>.main</code> column has <code>max-width: 860px</code> and uses Bootstrap's
+            <code>flex-grow-1</code>. The sidebar is <code>220px</code> wide with Bootstrap's <code>flex-shrink-0</code>.
+            On screens narrower than 768px, the sidebar becomes a slide-in drawer and the main area uses <code>padding: 0 1rem 4rem</code>.
+          </div>
+        </div>
+      </section>
+
+      <!-- SIDEBAR & NAV -->
+      <section class="section" id="sidebar-nav">
+        <div class="section-header">
+          <h2>Sidebar &amp; <em>navigation</em></h2>
+          <p class="section-desc">The sidebar is sticky, full-height, and scrollable independently. Navigation links
+            highlight as the user scrolls using a JS scroll listener.</p>
+        </div>
+
+        <div class="sub-label">nav link states</div>
+        <div
+          style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:1rem;">
+          <a class="nav-link" style="pointer-events:none;">Default — var(--text-muted), no border</a>
+          <a class="nav-link" style="color:var(--text);background:var(--bg3);pointer-events:none;">Hover — var(--text),
+            bg3 background</a>
+          <a class="nav-link active" style="pointer-events:none;">Active — accent-light text, accent left border,
+            accent-dim bg</a>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">JS — scroll-activated nav highlight</span><button
+              class="copy-btn" onclick="cp(this)">copy</button></div>
+          <pre>const allSections = document.querySelectorAll('section.section, .page-header');
+const allNavLinks = document.querySelectorAll('.nav-link');
+
+function navTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+window.addEventListener('scroll', () => {
+  let cur = '';
+  allSections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) cur = s.id;
+  });
+  allNavLinks.forEach(l => {
+    const target = l.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+    l.classList.toggle('active', target === cur);
+  });
+}, { passive: true });</pre>
+        </div>
+
+        <div class="callout callout-warn">
+          Never name the scroll function <code>scrollTo</code> — this conflicts with the native
+          <code>window.scrollTo(x, y)</code> browser API and silently breaks navigation. Always use a distinct name like
+          <code>navTo</code>.
+        </div>
+      </section>
+
+      <!-- PAGE HEADER COMPONENT -->
+      <section class="section" id="header">
+        <div class="section-header">
+          <h2>Page <em>header</em></h2>
+          <p class="section-desc">The first element inside <code>.main</code>. Contains the page title, subtitle, meta
+            dots, and optional pills. Uses <code>id="overview"</code> so the first nav link targets it.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;div class="page-header" id="overview"&gt;
+  &lt;div class="page-header-label"&gt;// Section label&lt;/div&gt;
+  &lt;h1&gt;Main Title&lt;br&gt;&lt;em&gt;Keyword&lt;/em&gt;&lt;/h1&gt;
+  &lt;p&gt;One or two sentence description.&lt;/p&gt;
+  &lt;div class="header-meta"&gt;
+    &lt;span class="meta-item"&gt;&lt;span class="meta-dot"&gt;&lt;/span&gt;Tag one&lt;/span&gt;
+    &lt;span class="meta-item"&gt;&lt;span class="meta-dot"&gt;&lt;/span&gt;Tag two&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="header-pills"&gt;  &lt;!-- optional --&gt;
+    &lt;span class="pill"&gt;Ubuntu 20.04+&lt;/span&gt;
+    &lt;span class="pill"&gt;Nginx&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </section>
+
+      <!-- SECTIONS -->
+      <section class="section" id="sections">
+        <div class="section-header">
+          <h2><em>Sections</em></h2>
+          <p class="section-desc">Content is organized into <code>&lt;section class="section"&gt;</code> blocks. Each
+            section has a <code>.section-header</code> (h2 + description) and a body of components. Use
+            <code>.sub-label</code> to divide content within a section.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">HTML — section structure</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;section class="section" id="my-section"&gt;
+  &lt;div class="section-header"&gt;
+    &lt;h2&gt;Section &lt;em&gt;title&lt;/em&gt;&lt;/h2&gt;
+    &lt;p class="section-desc"&gt;
+      Description with inline &lt;code&gt;code&lt;/code&gt; supported.
+    &lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class="sub-label"&gt;sub-section label&lt;/div&gt;
+  &lt;!-- components go here --&gt;
+&lt;/section&gt;</pre>
+        </div>
+      </section>
+
+      <!-- STEP BLOCKS -->
+      <section class="section" id="step-blocks">
+        <div class="section-header">
+          <h2>Step <em>blocks</em></h2>
+          <p class="section-desc">Numbered expandable cards for how-to guides and sequential instructions. Click to
+            toggle open/closed.</p>
+        </div>
+
+        <div class="step-block open">
+          <div class="step-header" onclick="tog(this.parentElement)">
+            <span class="step-num">1</span>
+            <span class="step-title">This step block is open by default (add class "open")</span>
+            <span class="step-chevron">&#9658;</span>
+          </div>
+          <div class="step-body">
+            <div class="step-desc">Body content goes here. Use <code>.step-desc</code> for text, then
+              <code>.code-block</code> components for commands. The <em>em tag</em> renders in accent-light color.
+            </div>
+            <div class="code-block">
+              <div class="code-header"><span class="code-label">bash</span><button class="copy-btn"
+                  onclick="cp(this)">copy</button></div>
+              <pre>echo "code block inside a step block"</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-block">
+          <div class="step-header" onclick="tog(this.parentElement)">
+            <span class="step-num">2</span>
+            <span class="step-title">This step block is closed by default</span>
+            <span class="step-chevron">&#9658;</span>
+          </div>
+          <div class="step-body">
+            <div class="step-desc">Click the header to open.</div>
+          </div>
+        </div>
+
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header"><span class="code-label">HTML — step block</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;div class="step-block" onclick="tog(this)"&gt;
+  &lt;div class="step-header"&gt;
+    &lt;span class="step-num"&gt;1&lt;/span&gt;
+    &lt;span class="step-title"&gt;Step title&lt;/span&gt;
+    &lt;span class="step-chevron"&gt;&amp;#9658;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="step-body"&gt;
+    &lt;div class="step-desc"&gt;Description text.&lt;/div&gt;
+    &lt;!-- code-block components here --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- JS toggle --&gt;
+function tog(el) { el.classList.toggle('open'); }</pre>
+        </div>
+      </section>
+
+      <!-- COMMAND CARDS -->
+      <section class="section" id="cmd-cards">
+        <div class="section-header">
+          <h2>Command <em>cards</em></h2>
+          <p class="section-desc">Used for API/CLI reference documentation. Each card has a color-coded badge, a command
+            signature, and an expandable body with description and examples.</p>
+        </div>
+
+        <div class="cmd-card open">
+          <div class="cmd-header" onclick="toggle(this.parentElement)">
+            <span class="cmd-badge badge-get">get</span>
+            <span class="cmd-main">get &lt;remote-file&gt; — open card example</span>
+            <span class="cmd-chevron">&#9658;</span>
+          </div>
+          <div class="cmd-body">
+            <div class="cmd-desc">Description of what the command does. Use <code>code</code> tags for inline commands.
+              Use <em>em</em> for accent-highlighted words.</div>
+            <div class="examples">
+              <div class="example">
+                <div class="ex-cmd"><span class="prompt">sftp&gt; </span>get report.csv</div>
+                <div class="ex-note">Explanatory note about this example</div>
+              </div>
+              <div class="example">
+                <div class="ex-cmd"><span class="prompt">sftp&gt; </span>get report.csv ~/Downloads/report.csv</div>
+                <div class="ex-note">Download to a specific local path</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header"><span class="code-label">HTML — command card</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;div class="cmd-card" onclick="toggle(this)"&gt;
+  &lt;div class="cmd-header"&gt;
+    &lt;span class="cmd-badge badge-get"&gt;get&lt;/span&gt;
+    &lt;span class="cmd-main"&gt;get &amp;lt;remote-file&amp;gt;&lt;/span&gt;
+    &lt;span class="cmd-chevron"&gt;&amp;#9658;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="cmd-body"&gt;
+    &lt;div class="cmd-desc"&gt;Description here.&lt;/div&gt;
+    &lt;div class="examples"&gt;
+      &lt;div class="example"&gt;
+        &lt;div class="ex-cmd"&gt;&lt;span class="prompt"&gt;$ &lt;/span&gt;get report.csv&lt;/div&gt;
+        &lt;div class="ex-note"&gt;Explanatory note&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+function toggle(card) { card.classList.toggle('open'); }</pre>
+        </div>
+      </section>
+
+      <!-- CODE BLOCKS -->
+      <section class="section" id="code-blocks">
+        <div class="section-header">
+          <h2>Code <em>blocks</em></h2>
+          <p class="section-desc">Every code sample uses a <code>.code-block</code> wrapper with a header bar showing
+            the language label and a copy button. The <code>&lt;pre&gt;</code> tag contains the code with optional
+            syntax-highlighting <code>&lt;span&gt;</code> classes.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">bash — with syntax spans</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre><span class="cm"># This is a comment</span>
+<span class="var">MY_VAR</span>=<span class="str">"hello world"</span>
+<span class="kw">if</span> [ <span class="str">"$MY_VAR"</span> == <span class="str">"hello world"</span> ]; <span class="kw">then</span>
+    <span class="cmd">echo</span> <span class="str">"$MY_VAR"</span>
+<span class="kw">fi</span></pre>
+        </div>
+
+        <div class="sub-label">syntax span classes</div>
+        <div class="token-row"><span class="token-name">.cm</span><span class="token-preview"
+            style="color:var(--text-dim)">Comments — var(--text-dim)</span></div>
+        <div class="token-row"><span class="token-name">.kw</span><span class="token-preview"
+            style="color:var(--badge-nav-text)">Keywords — if, for, do, then — var(--badge-nav-text)</span></div>
+        <div class="token-row"><span class="token-name">.str</span><span class="token-preview"
+            style="color:var(--badge-get-text)">Strings — var(--badge-get-text)</span></div>
+        <div class="token-row"><span class="token-name">.var</span><span class="token-preview"
+            style="color:var(--badge-manage-text)">Variables — var(--badge-manage-text)</span></div>
+        <div class="token-row"><span class="token-name">.cmd</span><span class="token-preview"
+            style="color:var(--accent-light)">Commands / functions — var(--accent-light)</span></div>
+        <div class="token-row"><span class="token-name">.op</span><span class="token-preview"
+            style="color:var(--badge-put-text)">Operators / errors — var(--badge-put-text)</span></div>
+        <div class="token-row"><span class="token-name">.nginx-ctx</span><span class="token-preview"
+            style="color:var(--accent-light)">Nginx context blocks (server, location)</span></div>
+        <div class="token-row"><span class="token-name">.nginx-dir</span><span class="token-preview"
+            style="color:var(--badge-nav-text)">Nginx directives (root, listen, etc.)</span></div>
+        <div class="token-row"><span class="token-name">.nginx-val</span><span class="token-preview"
+            style="color:var(--badge-get-text)">Nginx values</span></div>
+
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header"><span class="code-label">HTML — code block</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;div class="code-block"&gt;
+  &lt;div class="code-header"&gt;
+    &lt;span class="code-label"&gt;bash&lt;/span&gt;
+    &lt;button class="copy-btn" onclick="cp(this)"&gt;copy&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;pre&gt;your code here&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;!-- Copy button JS --&gt;
+function cp(btn) {
+  const text = btn.closest('.code-block').querySelector('pre').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1800);
+  });
+}</pre>
+        </div>
+      </section>
+
+      <!-- CALLOUTS -->
+      <section class="section" id="callouts">
+        <div class="section-header">
+          <h2><em>Callout</em> boxes</h2>
+          <p class="section-desc">Four semantic variants for contextual messages. Callouts sit inline in content, not
+            inside expandable cards.</p>
+        </div>
+
+        <div class="callout callout-info">This is a <strong>callout-info</strong> — use for informational context,
+          notes, and explanations. Inline <code>code</code> inherits the callout's color.</div>
+        <div class="callout callout-warn">This is a <strong>callout-warn</strong> — use for cautions, gotchas, and
+          things that can go wrong.</div>
+        <div class="callout callout-success">This is a <strong>callout-success</strong> — use for confirmations,
+          expected outcomes, and successful results.</div>
+        <div class="callout callout-error">This is a <strong>callout-error</strong> — use for errors, dangerous
+          operations, and irreversible actions.</div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;div class="callout callout-info"&gt;Message text.&lt;/div&gt;
+&lt;div class="callout callout-warn"&gt;Message text.&lt;/div&gt;
+&lt;div class="callout callout-success"&gt;Message text.&lt;/div&gt;
+&lt;div class="callout callout-error"&gt;Message text.&lt;/div&gt;</pre>
+        </div>
+      </section>
+
+      <!-- TIP BOXES -->
+      <section class="section" id="tips">
+        <div class="section-header">
+          <h2>Tip <em>boxes</em></h2>
+          <p class="section-desc">Left-bordered highlight boxes used for tips, best practices, and notable information.
+            Typically grouped at the end of a section.</p>
+        </div>
+
+        <div class="tip-box">
+          <div class="tip-label">Tip label here</div>
+          <div class="tip-text">Tip content. Can include inline <code>code</code> tags. Hover brightens the left border
+            from accent to accent-light.</div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;div class="tip-box"&gt;
+  &lt;div class="tip-label"&gt;Label&lt;/div&gt;
+  &lt;div class="tip-text"&gt;Content with &lt;code&gt;inline code&lt;/code&gt;.&lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </section>
+
+      <!-- GRID CARDS -->
+      <section class="section" id="grid-cards">
+        <div class="section-header">
+          <h2>Grid <em>cards</em></h2>
+          <p class="section-desc">Two-column grid of information cards. Used for options, configurations, or any set of
+            short related items. The <code>.full</code> modifier spans both columns.</p>
+        </div>
+
+        <div class="connect-grid row g-2">
+          <div class="col-12 col-md-6">
+            <div class="connect-box">
+              <div class="connect-label">Card label</div>
+              <div class="connect-cmd">command or value here</div>
+              <div class="connect-note">Explanatory note. Supports <code>inline code</code>.</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="connect-box">
+              <div class="connect-label">Another card</div>
+              <div class="connect-cmd">sftp -P 2222 user@host</div>
+              <div class="connect-note">Each card is independently hoverable and shows border on hover.</div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="connect-box">
+              <div class="connect-label">Full-width card (col-12 wrapper)</div>
+              <div class="connect-cmd">exit · bye · quit · Ctrl+D</div>
+              <div class="connect-note">Spans the full grid width. Use for items that don't fit neatly into the two-column
+                layout.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;div class="connect-grid row g-2"&gt;
+  &lt;div class="col-12 col-md-6"&gt;
+    &lt;div class="connect-box"&gt;
+      &lt;div class="connect-label"&gt;Label&lt;/div&gt;
+      &lt;div class="connect-cmd"&gt;command&lt;/div&gt;
+      &lt;div class="connect-note"&gt;Note text.&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="col-12 col-md-6"&gt;&lt;div class="connect-box"&gt;...&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="col-12"&gt;&lt;div class="connect-box"&gt;...&lt;/div&gt;&lt;/div&gt; &lt;!-- spans full width --&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </section>
+
+      <!-- TABLES -->
+      <section class="section" id="tables">
+        <div class="section-header">
+          <h2><em>Tables</em></h2>
+          <p class="section-desc">Used for quick-reference data. Column cells use color classes to establish visual
+            hierarchy. Rows highlight on hover.</p>
+        </div>
+
+        <div class="sub-label">reference table (2 columns)</div>
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>Command</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="ref-cmd">get file</td>
+              <td class="ref-desc">Download a file from the server</td>
+            </tr>
+            <tr>
+              <td class="ref-cmd">get -r dir</td>
+              <td class="ref-desc">Recursively download a directory</td>
+            </tr>
+            <tr>
+              <td class="ref-cmd">put file</td>
+              <td class="ref-desc">Upload a file to the server</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="sub-label">permissions table (multi-column)</div>
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>Target</th>
+              <th>Mode</th>
+              <th>Symbolic</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="ref-desc">publish/ (dir)</td>
+              <td class="perm-octal">755</td>
+              <td class="perm-sym">rwxr-xr-x</td>
+              <td class="perm-why">www-data must enter this directory</td>
+            </tr>
+            <tr>
+              <td class="ref-desc">Files in publish/</td>
+              <td class="perm-octal">644</td>
+              <td class="perm-sym">rw-r--r--</td>
+              <td class="perm-why">www-data reads; nobody else writes</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">HTML — ref-table</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;table class="ref-table"&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Command&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td class="ref-cmd"&gt;command&lt;/td&gt;
+      &lt;td class="ref-desc"&gt;description&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+        </div>
+      </section>
+
+      <!-- FORMS -->
+      <section class="section" id="forms">
+        <div class="section-header">
+          <h2>Form <em>components</em></h2>
+          <p class="section-desc">Used in interactive tools and script generators. All form elements use the design
+            tokens and share a consistent monospace aesthetic.</p>
+        </div>
+
+        <div class="generator">
+          <div class="generator-header">
+            <div class="generator-icon">⚙</div>
+            <div>
+              <div class="generator-title">Form component demo</div>
+              <div class="generator-sub">All interactive form elements in this design system</div>
+            </div>
+          </div>
+          <div class="generator-body">
+
+            <div class="gen-section-title">text inputs</div>
+            <div class="gen-grid row g-2">
+              <div class="col-12 col-sm-6">
+                <div class="gen-field">
+                  <label class="gen-label">Input label</label>
+                  <input class="gen-input" placeholder="Placeholder text" />
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="gen-field">
+                  <label class="gen-label">Select field</label>
+                  <select class="gen-select">
+                    <option>Option one</option>
+                    <option>Option two</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="gen-field">
+                  <label class="gen-label">Full-width input (col-12 wrapper)</label>
+                  <input class="gen-input" placeholder="Spans both columns" />
+                </div>
+              </div>
+            </div>
+
+            <div class="gen-section-title">checkboxes</div>
+            <div class="checkbox-group">
+              <label class="checkbox-row">
+                <input type="checkbox" checked />
+                <div>
+                  <span class="checkbox-label">Checkbox option label</span>
+                  <span class="checkbox-desc">Supporting description explaining what this option does.</span>
+                </div>
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" />
+                <div>
+                  <span class="checkbox-label">Another option</span>
+                  <span class="checkbox-desc">Each row is fully clickable as a label element.</span>
+                </div>
+              </label>
+            </div>
+
+            <div class="gen-section-title">buttons</div>
+            <div style="display:flex;gap:10px;margin-top:0.5rem;">
+              <button class="gen-btn gen-btn-primary">Primary action</button>
+              <button class="gen-btn gen-btn-secondary">Secondary</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header"><span class="code-label">HTML — generator wrapper</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;div class="generator"&gt;
+  &lt;div class="generator-header"&gt;
+    &lt;div class="generator-icon"&gt;⚙&lt;/div&gt;
+    &lt;div&gt;
+      &lt;div class="generator-title"&gt;Title&lt;/div&gt;
+      &lt;div class="generator-sub"&gt;Subtitle&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="generator-body"&gt;
+    &lt;div class="gen-section-title"&gt;section&lt;/div&gt;
+    &lt;div class="gen-grid row g-2"&gt;
+      &lt;div class="col-12 col-sm-6"&gt;
+        &lt;div class="gen-field"&gt;
+          &lt;label class="gen-label"&gt;Label&lt;/label&gt;
+          &lt;input class="gen-input" placeholder="..." /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="col-12"&gt;  &lt;!-- full-width field --&gt;
+        &lt;div class="gen-field"&gt;...&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button class="gen-btn gen-btn-primary"&gt;Generate&lt;/button&gt;
+    &lt;button class="gen-btn gen-btn-secondary"&gt;Reset&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </section>
+
+      <!-- BADGES -->
+      <section class="section" id="badges">
+        <div class="section-header">
+          <h2><em>Badges</em></h2>
+          <p class="section-desc">Color-coded labels used inside command card headers. Five semantic types. Can also be
+            used standalone as status indicators.</p>
+        </div>
+
+        <div class="badge-row">
+          <span class="cmd-badge badge-get">badge-get</span>
+          <span class="cmd-badge badge-put">badge-put</span>
+          <span class="cmd-badge badge-nav">badge-nav</span>
+          <span class="cmd-badge badge-manage">badge-manage</span>
+          <span class="cmd-badge badge-info">badge-info</span>
+        </div>
+
+        <div class="sub-label">semantic mapping</div>
+        <div class="token-row"><span class="token-name">badge-get</span><span class="token-preview">Download, read,
+            fetch, success — green</span></div>
+        <div class="token-row"><span class="token-name">badge-put</span><span class="token-preview">Upload, write, push,
+            warning — orange</span></div>
+        <div class="token-row"><span class="token-name">badge-nav</span><span class="token-preview">Navigation, info,
+            neutral — blue</span></div>
+        <div class="token-row"><span class="token-name">badge-manage</span><span class="token-preview">Admin, manage,
+            config, caution — amber</span></div>
+        <div class="token-row"><span class="token-name">badge-info</span><span class="token-preview">Error, destructive,
+            system info — red</span></div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;span class="cmd-badge badge-get"&gt;get&lt;/span&gt;
+&lt;span class="cmd-badge badge-put"&gt;put&lt;/span&gt;
+&lt;span class="cmd-badge badge-nav"&gt;nav&lt;/span&gt;
+&lt;span class="cmd-badge badge-manage"&gt;manage&lt;/span&gt;
+&lt;span class="cmd-badge badge-info"&gt;info&lt;/span&gt;</pre>
+        </div>
+      </section>
+
+      <!-- MISC -->
+      <section class="section" id="misc">
+        <div class="section-header">
+          <h2><em>Misc</em> elements</h2>
+          <p class="section-desc">Smaller recurring elements — directory trees, pills, sub-labels, meta dots, and the
+            footer.</p>
+        </div>
+
+        <div class="sub-label">directory tree</div>
+        <div class="dir-tree">
+          <span class="dir">/var/www/</span>
+          <span class="dir">├── project/</span>
+          <span class="file">│ ├── repo/</span> <span class="comment">← comment text</span>
+          <span class="file">│ ├── publish/</span> <span class="comment">← nginx serves this</span>
+          <span class="file">│ └── deploy.sh</span>
+        </div>
+
+        <div class="sub-label">sub-label divider (shown above)</div>
+        <p class="section-desc" style="margin-bottom:1rem;">Sub-labels use <code>display:flex</code> with a
+          <code>::after</code> pseudo-element that draws a full-width line. Use them to divide content within a section
+          without adding a new section heading.
+        </p>
+
+        <div class="sub-label">header pills</div>
+        <div class="header-pills" style="margin-bottom:1rem;">
+          <span class="pill">Ubuntu 20.04+</span>
+          <span class="pill">Nginx 1.18+</span>
+          <span class="pill">No framework</span>
+        </div>
+
+        <div class="sub-label">footer</div>
+        <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+          <footer style="padding:1rem 1.25rem;margin:0;">
+            <span>Project name — short description</span>
+            <span>Secondary info · more info</span>
+          </footer>
+        </div>
+
+        <div class="code-block" style="margin-top:1rem;">
+          <div class="code-header"><span class="code-label">HTML — footer</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;footer class="d-flex justify-content-between align-items-center flex-wrap"&gt;
+  &lt;span&gt;Left side text&lt;/span&gt;
+  &lt;span&gt;Right side text &amp;nbsp;·&amp;nbsp; more&lt;/span&gt;
+&lt;/footer&gt;</pre>
+        </div>
+      </section>
+
+      <!-- JAVASCRIPT -->
+      <section class="section" id="javascript">
+        <div class="section-header">
+          <h2>JavaScript <em>patterns</em></h2>
+          <p class="section-desc">Three small JS functions cover all interactivity. Copy them verbatim into every page's
+            <code>&lt;script&gt;</code> block.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">JS — all three functions</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>/* ── 1. Sidebar scroll-tracking ───────────────────────── */
+const allSections = document.querySelectorAll('section.section, .page-header');
+const allNavLinks = document.querySelectorAll('.nav-link');
+
+function navTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+window.addEventListener('scroll', () => {
+  let cur = '';
+  allSections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) cur = s.id;
+  });
+  allNavLinks.forEach(l => {
+    const target = l.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+    l.classList.toggle('active', target === cur);
+  });
+}, { passive: true });
+
+/* ── 2. Toggle expandable blocks (step-block, cmd-card) ─ */
+function tog(el)    { el.classList.toggle('open'); }   // step-block: onclick="tog(this)"
+function toggle(el) { el.classList.toggle('open'); }   // cmd-card:   onclick="toggle(this)"
+
+/* ── 3. Copy button for code blocks ─────────────────────── */
+function cp(btn) {
+  const text = btn.closest('.code-block').querySelector('pre').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1800);
+  });
+}</pre>
+        </div>
+
+        <div class="callout callout-warn">
+          <strong>Critical:</strong> Use <code>navTo</code>, not <code>scrollTo</code>. The browser's native
+          <code>window.scrollTo(x, y)</code> silently overrides any custom function named <code>scrollTo</code>,
+          breaking all sidebar navigation clicks.
+        </div>
+      </section>
+
+      <!-- FULL TEMPLATE -->
+      <section class="section" id="template">
+        <div class="section-header">
+          <h2>Complete page <em>template</em></h2>
+          <p class="section-desc">Copy this skeleton to start any new page. Replace the placeholder content and add
+            sections as needed.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-label">HTML — full page template</span><button class="copy-btn"
+              onclick="cp(this)">copy</button></div>
+          <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Page Title&lt;/title&gt;
+  &lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+  &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+  &lt;link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&amp;display=swap" rel="stylesheet"&gt;
+  &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+  &lt;style&gt;
+    /* ── Paste the full :root { } and @media dark { :root { } }
+       blocks from the style guide here, then all component CSS ──
+       Bootstrap handles layout (d-flex, flex-grow-1, row/col, etc.)
+       Custom CSS handles look & feel (colors, typography, components) ── */
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- Mobile hamburger (Bootstrap d-flex d-md-none handles visibility) --&gt;
+&lt;button class="menu-toggle d-flex d-md-none" id="menuToggle" onclick="openDrawer()"&gt;&#9776;&lt;/button&gt;
+&lt;div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"&gt;&lt;/div&gt;
+
+&lt;div class="layout d-flex min-vh-100"&gt;
+
+  &lt;aside class="sidebar flex-shrink-0" id="sidebar"&gt;
+    &lt;button class="drawer-close" onclick="closeDrawer()"&gt;&amp;#x2715;&lt;/button&gt;
+    &lt;div class="sidebar-logo"&gt;
+      &lt;div class="sidebar-logo-label"&gt;// Guide&lt;/div&gt;
+      &lt;div class="sidebar-logo-title"&gt;Page &lt;em&gt;Title&lt;/em&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;nav&gt;
+      &lt;div class="nav-group"&gt;
+        &lt;div class="nav-group-label"&gt;Group&lt;/div&gt;
+        &lt;a class="nav-link active" onclick="navTo('overview')"&gt;Overview&lt;/a&gt;
+        &lt;a class="nav-link" onclick="navTo('section-one')"&gt;Section one&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/nav&gt;
+  &lt;/aside&gt;
+
+  &lt;main class="main flex-grow-1"&gt;
+
+    &lt;div class="page-header" id="overview"&gt;
+      &lt;div class="page-header-label"&gt;// Category&lt;/div&gt;
+      &lt;h1&gt;Page &lt;em&gt;Title&lt;/em&gt;&lt;/h1&gt;
+      &lt;p&gt;Short description of the page.&lt;/p&gt;
+      &lt;div class="header-meta"&gt;
+        &lt;span class="meta-item"&gt;&lt;span class="meta-dot"&gt;&lt;/span&gt;Tag&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;section class="section" id="section-one"&gt;
+      &lt;div class="section-header"&gt;
+        &lt;h2&gt;Section &lt;em&gt;one&lt;/em&gt;&lt;/h2&gt;
+        &lt;p class="section-desc"&gt;Description.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;!-- components here --&gt;
+    &lt;/section&gt;
+
+    &lt;footer class="d-flex justify-content-between align-items-center flex-wrap"&gt;
+      &lt;span&gt;Left text&lt;/span&gt;
+      &lt;span&gt;Right text&lt;/span&gt;
+    &lt;/footer&gt;
+
+  &lt;/main&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  const allSections = document.querySelectorAll('section.section, .page-header');
+  const allNavLinks = document.querySelectorAll('.nav-link');
+  function navTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    allSections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+    allNavLinks.forEach(l => {
+      const target = l.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+      l.classList.toggle('active', target === cur);
+    });
+  }, { passive: true });
+  function tog(el)    { el.classList.toggle('open'); }
+  function toggle(el) { el.classList.toggle('open'); }
+  function cp(btn) {
+    const text = btn.closest('.code-block').querySelector('pre').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1800);
+    });
+  }
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+        </div>
+
+        <div class="tip-box">
+          <div class="tip-label">Rules to always follow</div>
+          <div class="tip-text">
+            1. Every color must come from a CSS variable — never hardcode hex values.<br>
+            2. Use <code>--serif</code> only for <code>h1</code> and <code>h2</code>, always italic, always weight
+            300.<br>
+            3. Use <code>--mono</code> for everything else — body, labels, code, buttons.<br>
+            4. The <code>em</code> tag inside headings renders non-italic in <code>--accent-light</code> — this is the
+            signature typographic move of the style.<br>
+            5. Never name the nav function <code>scrollTo</code>.<br>
+            6. Sections must have an <code>id</code> that matches the <code>navTo()</code> argument in the sidebar
+            links.<br>
+            7. <code>.page-header</code> must have <code>id="overview"</code> (or whatever the first nav link targets).
+          </div>
+        </div>
+      </section>
+
+      <footer class="d-flex justify-content-between align-items-center flex-wrap">
+        <span>Technical Docs Style Guide</span>
+        <span>Light &amp; dark mode &nbsp;·&nbsp; JetBrains Mono + Fraunces</span>
+      </footer>
+
+    </main>
+  </div>
+
+  <script>
+    const allSections = document.querySelectorAll('section.section, .page-header');
+    const allNavLinks = document.querySelectorAll('.nav-link');
+
+    function navTo(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    window.addEventListener('scroll', () => {
+      let cur = '';
+      allSections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+      allNavLinks.forEach(l => {
+        const target = l.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+        l.classList.toggle('active', target === cur);
+      });
+    }, { passive: true });
+
+    function tog(el) { el.classList.toggle('open'); }
+    function toggle(el) { el.classList.toggle('open'); }
+
+    function cp(btn) {
+      const text = btn.closest('.code-block').querySelector('pre').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1800);
+      });
+    }
+
+    /* ── 4. Mobile drawer ─────────────────────────────────── */
+    const sidebar = document.getElementById('sidebar');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+
+    function openDrawer() {
+      sidebar.classList.add('drawer-open');
+      drawerOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      menuToggle.classList.add('menu-toggle__hidden');
+    }
+
+    function closeDrawer() {
+      sidebar.classList.remove('drawer-open');
+      drawerOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+      menuToggle.classList.remove('menu-toggle__hidden');
+    }
+
+    /* Close drawer when a nav link is tapped on mobile */
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) closeDrawer();
+      });
+    });
+  </script>
+</body>
+
+</html>
